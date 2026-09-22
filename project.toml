@@ -1,0 +1,9 @@
+type = "cpp"
+name = "rayTracer"
+build_dir = "./build"
+program = "main"
+cwd = "."
+args = []
+stopOnEntry = false
+runInTerminal = true
+command=""
