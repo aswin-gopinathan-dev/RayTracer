@@ -6,4 +6,4 @@ cwd = "."
 args = []
 stopOnEntry = false
 runInTerminal = true
-command=""
+command="make test"
