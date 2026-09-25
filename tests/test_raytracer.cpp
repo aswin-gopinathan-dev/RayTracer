@@ -2,6 +2,7 @@
 #include "../inc/Vec4.h"
 #include "../inc/Color.h"
 #include "../inc/Canvas.h"
+#include "../inc/Matrix.h"
 
 TEST(MathTest, Create_Vector_Point)
 {
@@ -178,4 +179,52 @@ TEST(CanvasTest, Canvas_Save)
     c.Save();
 }
 
+TEST(MatrixTest, Create_Matrix)
+{
+    Matrix m1 = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 16}};
+    ASSERT_EQ((m1.m[0][3] == 4 && m1.m[2][2] == 11), true);
+    Matrix m2 = {{1, 2}, {3, 4}};
+    ASSERT_EQ((m2.m[0][1] == 2 && m2.m[1][0] == 3), true);
+    Matrix m3 = {{1, 2, 3}, {4, 5, 6}, {8, 9, 10}};
+    ASSERT_EQ((m3.m[0][2] == 3 && m3.m[2][2] == 10), true);
+}
+
+TEST(MatrixTest, Compare_Matrices)
+{
+    Matrix m1 = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 16}};
+    Matrix m2 = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 16}};    
+    ASSERT_EQ((m1 == m2), true);
+
+    Matrix m3 = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 16}};
+    Matrix m4 = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 1}};
+    ASSERT_EQ((m3 == m4), false);
+}
+
+TEST(MatrixTest, Multiply_Matrices)
+{
+    Matrix m1 = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 8, 7, 6}, {5, 4, 3, 2}};
+    Matrix m2 = {{-2, 1, 2, 3}, {3, 2, 1, -1}, {4, 3, 6, 5}, {1, 2, 7, 8}};    
+    Matrix exp_result = {{20, 22, 50, 48}, {44, 54, 114, 108}, 
+                        {40, 58, 110, 102}, {16, 26, 46, 42}};
+    Matrix calc_result = m1 * m2;
+    ASSERT_EQ((exp_result == calc_result), true);
+}
+
+TEST(MatrixTest, Multiply_Matrix_Vector)
+{
+    Matrix m = {{1, 2, 3, 4}, {2, 4, 4, 2}, {8, 6, 4, 1}, {0, 0, 0, 1}};
+    Vector v = {1, 2, 3};
+    Vector exp_result = {14, 22, 32};
+    Vector calc_result = m * v;
+    ASSERT_EQ((exp_result == calc_result), true);
+}
+
+TEST(MatrixTest, Multiply_Matrix_Point)
+{
+    Matrix m = {{1, 2, 3, 4}, {2, 4, 4, 2}, {8, 6, 4, 1}, {0, 0, 0, 1}};
+    Point v = {1, 2, 3};
+    Point exp_result = {18, 24, 33};
+    Point calc_result = m * v;
+    ASSERT_EQ((exp_result == calc_result), true);
+}
 
